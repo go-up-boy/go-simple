@@ -1,0 +1,64 @@
+package {{PackageName}}_logics
+
+import (
+    "errors"
+    "go-simple/app/modules/{{PackageName}}_module/{{PackageName}}"
+    "go-simple/app/requests"
+)
+
+type {{StructName}}Logic struct {
+
+}
+
+func (logic *{{StructName}}Logic) IndexLogic () ({{VariableName}}Models []{{PackageName}}.{{StructName}} , err error) {
+	{{VariableName}}Models = {{PackageName}}.All()
+	return {{VariableName}}Models, err
+}
+
+func (logic *{{StructName}}Logic) ShowLogic (ID string) ({{VariableName}}Model {{PackageName}}.{{StructName}}, err error) {
+	{{VariableName}}Model = {{PackageName}}.Get(ID)
+	if {{VariableName}}Model.ID == 0 {
+		return {{VariableName}}Model, errors.New("not found")
+	}
+	return
+}
+
+func (logic *{{StructName}}Logic) StoreLogic (request requests.{{StructName}}Request) ({{VariableName}}Model {{PackageName}}.{{StructName}}, err error) {
+	{{VariableName}}Model = {{PackageName}}.{{StructName}}{
+		FieldName:      request.FieldName,
+	}
+	{{VariableName}}Model.Create()
+	if {{VariableName}}Model.ID > 0 {
+		return {{VariableName}}Model, nil
+	}
+	return {{PackageName}}.{{StructName}}{}, errors.New("create fail")
+}
+
+func (logic *{{StructName}}Logic) UpdateLogic (ID string, request requests.{{StructName}}Request) ({{VariableName}}Model {{PackageName}}.{{StructName}}, err error) {
+	{{VariableName}}Models := {{PackageName}}.Get(ID)
+	if {{VariableName}}Models.ID == 0 {
+	    return {{VariableName}}Model, errors.New("not found")
+	}
+	{{VariableName}}Model.FieldName = request.FieldName
+    rowsAffected := {{VariableName}}Model.Save()
+    if rowsAffected > 0 {
+        return {{VariableName}}Model, nil
+    } else {
+        return {{PackageName}}.{{StructName}}{}, errors.New("update fail")
+    }
+}
+
+func (logic *{{StructName}}Logic) DeleteLogic (ID string) (rowsAffected int64, err error) {
+	{{VariableName}}Model := {{PackageName}}.Get(ID)
+	if {{VariableName}}Model.ID == 0 {
+		return 0, errors.New("not found")
+	}
+    rowsAffected = {{VariableName}}Model.Delete()
+    if rowsAffected > 0 {
+        return rowsAffected, nil
+    }
+    return 0, errors.New("deleted fail")
+}
+
+
+

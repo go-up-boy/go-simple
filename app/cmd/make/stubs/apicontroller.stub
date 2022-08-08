@@ -1,0 +1,66 @@
+package {{PackageName}}
+
+import (
+    "github.com/gin-gonic/gin"
+    "go-simple/app/modules/{{PackageName}}_module/{{PackageName}}_logics"
+    "go-simple/app/requests"
+    "go-simple/pkg/response"
+)
+
+type {{StructNamePlural}}Controller struct {
+    {{PackageName}}_logics.{{StructName}}Logic
+}
+
+func (ctrl *{{StructNamePlural}}Controller) Index(c *gin.Context) {
+    {{VariableNamePlural}}, err := ctrl.IndexLogic()
+    if err != nil {
+        response.Abort500(c, err.Error())
+    }
+    response.Data(c, {{VariableNamePlural}})
+}
+
+func (ctrl *{{StructNamePlural}}Controller) Show(c *gin.Context) {
+    {{VariableName}}Model, _ := ctrl.ShowLogic(c.Param("id"))
+    if {{VariableName}}Model.ID == 0 {
+        response.Abort404(c)
+        return
+    }
+    response.Data(c, {{VariableName}}Model)
+}
+
+func (ctrl *{{StructNamePlural}}Controller) Store(c *gin.Context) {
+    request := requests.{{StructName}}Request{}
+    if ok := requests.Validate(c, &request, requests.{{StructName}}Save); !ok {
+        return
+    }
+    {{VariableName}}Model, err := ctrl.StoreLogic(request)
+    if err == nil {
+        response.Created(c, {{VariableName}}Model)
+    } else {
+        response.Abort500(c, err.Error())
+    }
+}
+
+func (ctrl *{{StructNamePlural}}Controller) Update(c *gin.Context) {
+    request := requests.{{StructName}}Request{}
+    bindOk := requests.Validate(c, &request, requests.{{StructName}}Save)
+    if !bindOk {
+        return
+    }
+    {{VariableName}}Model, err := ctrl.UpdateLogic(c.Param("id"), request)
+    if err == nil {
+        response.Data(c, {{VariableName}}Model)
+    } else {
+        response.Abort500(c, err.Error())
+    }
+}
+
+func (ctrl *{{StructNamePlural}}Controller) Delete(c *gin.Context) {
+    rowsAffected, err := ctrl.DeleteLogic(c.Param("id"))
+    if rowsAffected > 0 {
+        response.Success(c)
+        return
+    }
+
+    response.Abort500(c, err.Error())
+}
