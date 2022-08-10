@@ -15,9 +15,9 @@ import (
 // func (user *User) AfterDelete(tx *gorm.DB) (err error) {}
 // func (user *User) AfterFind(tx *gorm.DB) (err error) {}
 
-func (u *User) BeforeSave(tx *gorm.DB) (err error) {
-	if !hash.BcryptIsHashed(u.Password) {
-		u.Password = hash.BcryptHash(u.Password)
+func (user *User) BeforeSave(tx *gorm.DB) (err error) {
+	if !hash.BcryptIsHashed(user.Password) {
+		user.Password = hash.BcryptHash(user.Password)
 	}
 	return nil
 }

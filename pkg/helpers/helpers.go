@@ -55,7 +55,13 @@ func RandomString(length int) string {
 	return string(b)
 }
 
-func RemoveEmptyToString(a []string) string {
+func RemoveEmptyToString(a []string, seps... string) string {
+	var sep string
+	if len(sep) > 0 {
+		sep = seps[0]
+	} else {
+		sep = "/"
+	}
 	var ret []string
 	for _, v := range a{
 		if v == "" {
@@ -64,4 +70,22 @@ func RemoveEmptyToString(a []string) string {
 		ret = append(ret, v)
 	}
 	return strings.Join(ret, "/")
+}
+
+func RemoveEmptyToArray(a string, seps... string) []string {
+	var sep string
+	if len(sep) > 0 {
+		sep = seps[0]
+	} else {
+		sep = "/"
+	}
+	var ret []string
+	array := strings.Split(a, sep)
+	for _, v := range array{
+		if v == "" {
+			continue
+		}
+		ret = append(ret, v)
+	}
+	return ret
 }

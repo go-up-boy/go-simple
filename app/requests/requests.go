@@ -18,9 +18,7 @@ func Validate(c *gin.Context, obj interface{}, handler ValidatorFunc) bool {
 		fmt.Println(err.Error())
 		return false
 	}
-
 	errs := handler(obj, c)
-
 	// 3. 判断验证是否通过
 	if len(errs) > 0 {
 		response.ValidationError(c, errs)

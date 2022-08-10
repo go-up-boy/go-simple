@@ -13,7 +13,7 @@ func SetupRoute(router *gin.Engine) {
 
 	setupNotFoundHandle(router)
 
-	routes.RegisterApiRoutes(router)
+	routes.Initialize()
 }
 
 // Global Middleware

@@ -16,7 +16,7 @@ func SetupDB() {
 
 	var dbConfig gorm.Dialector
 
-	switch config.Get("database.connection") {
+	switch config.Get("database.drive") {
 	case "mysql":
 		// 构建 DSN 信息
 		dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=%v&parseTime=True&multiStatements=true&loc=Local",

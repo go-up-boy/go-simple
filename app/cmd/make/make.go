@@ -18,6 +18,8 @@ type Model struct {
 	VariableName       string
 	VariableNamePlural string
 	PackageName        string
+	ControllerPath	   string
+	TableNameCamel	   string
 }
 //go:embed stubs
 var stubsFs embed.FS
@@ -35,18 +37,18 @@ func init() {
 		CmdMakeRequest,
 		CmdMakeMigration,
 		CmdMakeModule,
+		CmdMakeRoute,
 	)
 }
 
 func makeModelFromString(name string) Model {
 	model := Model{}
-	model.StructName = str.Singular(strcase.ToCamel(name))
+	model.StructName = strcase.ToCamel(name)
 	model.StructNamePlural = str.Plural(model.StructName)
-	model.TableName = str.Snake(model.StructNamePlural)
+	model.TableName = str.Snake(model.StructName)
 	model.VariableName = str.LowerCamel(model.StructName)
 	model.PackageName = str.Snake(model.StructName)
 	model.VariableNamePlural = str.LowerCamel(model.StructNamePlural)
-
 	return model
 }
 
@@ -72,6 +74,7 @@ func createFileFromStub(filePath string, stubName string, model Model, variables
 	replaces["{{StructNamePlural}}"] = model.StructNamePlural
 	replaces["{{PackageName}}"] = model.PackageName
 	replaces["{{TableName}}"] = model.TableName
+	replaces["{{ControllerPath}}"] = model.ControllerPath
 
 	for search, replace := range replaces{
 		modelStub = strings.ReplaceAll(modelStub, search, replace)

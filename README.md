@@ -4,7 +4,7 @@ A framework to make golang MVC simple
 
 ## 0. go-simple 是什么？
 
-go-simple是用gin搭建的mvc结构框架，是一个web api 快速开发工具，集成了开发中常用的模块，一键生成增删改查api代码，拥有很好的性能。<br>
+go-simple是用gin搭建的mvc结构框架，是一个web api 快速开发工具，集成了开发中常用的模块，一键生成增删改查api代码和路由，拥有很好的性能。<br>
 普通mvc结构基本一致，不过将业务代码分层到模块中心，对多人协作开发较友好。
 <br>
 集成功能：
@@ -19,7 +19,7 @@ go-simple是用gin搭建的mvc结构框架，是一个web api 快速开发工具
 
 ## 1. 目录结构
 
-开发者无需关心过多目录文件，按照目录约定开发即可，所有业务逻辑均在 模块中心 实现。
+开发者无需关心过多目录文件，按照目录约定开发即可，所有业务逻辑均在 module 实现。
 * app
   * cmd 命令行
   * http 控制器
@@ -62,15 +62,17 @@ go-simple是用gin搭建的mvc结构框架，是一个web api 快速开发工具
 
     go mod tidy
 
-    // 使用migrate生成数据库结构
+    1. // 使用migrate生成数据库结构
     go run mian.go make migration user
-    // 执行迁移
+    2. // 执行迁移
     go run mian.go migrate up
-    // 一键生成模块 注意：控制器根目录为 http/controllers
-    go run main.go make module [模块名] [控制器路径.../Name]
-    // 修改生成后gorm模型结构即可
+    3. // 一键生成模块 注意：控制器根目录为 http/controllers
+    go run main.go make module [数据表名] [控制器路径...]
+    4. // 修改生成后gorm模型结构和表单验证
+    5. 启动
+    go run mian.go
 
-生成的代码包含增删改查等基本代码，只需要在 routes/api.go 添加相应的路由即可
+生成的代码包含增删改查等基本代码和路由
 
 ## 3. 适合什么项目使用？
 

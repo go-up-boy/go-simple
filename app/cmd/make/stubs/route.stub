@@ -1,0 +1,19 @@
+package routes
+
+import (
+	"go-simple/app/http/controllers/{{ControllerPath}}/{{PackageName}}"
+	"go-simple/globals"
+)
+
+func init() {
+	r := globals.R
+	group := r.Group("/{{ControllerPath}}/{{PackageName}}")
+	{
+		var ctler = new({{PackageName}}.{{StructNamePlural}}Controller)
+		group.GET("/", ctler.Index)
+		group.GET("/:id", ctler.Show)
+		group.POST("/", ctler.Store)
+		group.PUT("/", ctler.Update)
+		group.DELETE("/:id", ctler.Delete)
+	}
+}

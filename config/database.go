@@ -5,8 +5,8 @@ import "go-simple/pkg/config"
 func init() {
 	config.Add("database", func() map[string]interface{} {
 		return map[string]interface{}{
-			"connection": config.Env("DB_CONNECTION", "mysql"),
-			
+			"drive": config.Env("DB_DRIVE", "mysql"),
+			"connection":config.Env("DB_CONNECTION", "mysql"),
 			"mysql": map[string]interface{}{
 				// 数据库连接信息
 				"host":     config.Env("DB_HOST", "127.0.0.1"),

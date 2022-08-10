@@ -1,12 +1,13 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"go-simple/app/http/controllers/api/v1/auth"
 	"go-simple/app/middlewares"
+	"go-simple/globals"
 )
 
-func RegisterApiRoutes(r *gin.Engine)  {
+func Initialize()  {
+	r := globals.R
 	v1 := r.Group("/v1")
 	{
 		authGroup := v1.Group("/auth").Use(middlewares.LimitIP("2000-H"))
@@ -29,6 +30,4 @@ func RegisterApiRoutes(r *gin.Engine)  {
 			authGroup.POST("/login/refresh-token", lgc.RefreshToken)
 		}
 	}
-
-
 }

@@ -7,6 +7,7 @@ import (
 	cmdMake "go-simple/app/cmd/make"
 	"go-simple/bootstrap"
 	btsConfig "go-simple/config"
+	"go-simple/globals"
 	"go-simple/pkg/config"
 	"go-simple/pkg/console"
 	"os"
@@ -18,7 +19,6 @@ func init() {
 }
 
 func main()  {
-
 	var rootCmd = &cobra.Command{
 		Use: config.Get("app.name"),
 		Short: "A simple forum project",
@@ -32,6 +32,8 @@ func main()  {
 			bootstrap.SetupDB()
 			// 初始化缓存
 			bootstrap.SetupRedis()
+			// 初始化路由
+			bootstrap.SetupRoute(globals.R)
 		},
 	}
 	rootCmd.AddCommand(

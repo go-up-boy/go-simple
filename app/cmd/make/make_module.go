@@ -16,14 +16,15 @@ var CmdMakeModule = &cobra.Command{
 
 func runModule(cmd *cobra.Command, args []string) {
 	moduleName := args[0]
-	apiName := args[1]
+	controllerPath := args[1]
 	model := makeModelFromString(moduleName)
 	createModuleContents(model.PackageName)
 	path := fmt.Sprintf("app/modules/%s_module/%s_logics/logic.go", model.PackageName, model.PackageName)
 	createFileFromStub(path, "logic", model)
 	runMakeRequest(cmd, []string{moduleName})
-	runMakeAPIController(cmd, []string{apiName})
+	runMakeAPIController(cmd, []string{controllerPath + "/" + moduleName})
 	runMakeModel(cmd, []string{moduleName})
+	runMakeRoute(cmd, []string{controllerPath + "/" + moduleName})
 }
 
 func createModuleContents(moduleName string) error {
