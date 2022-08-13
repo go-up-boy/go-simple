@@ -39,8 +39,8 @@ func IsPhoneExist(phone string) bool {
     return count > 0
 }
 // ComparePassword 密码是否正确
-func (u User) ComparePassword(_password string) bool {
-    return hash.BcryptCheck(_password, u.Password)
+func (user User) ComparePassword(_password string) bool {
+    return hash.BcryptCheck(_password, user.Password)
 }
 
 // GetByPhone 通过手机号来获取用户
