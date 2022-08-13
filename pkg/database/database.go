@@ -27,6 +27,22 @@ func Connect(dbConfig gorm.Dialector, _logger gormlogger.Interface) {
 	}
 }
 
+func ConnectService(dbConfig gorm.Dialector, _logger gormlogger.Interface) (*gorm.DB, *sql.DB) {
+	var err error
+	ServiceDB, err := gorm.Open(dbConfig, &gorm.Config{
+		Logger: _logger,
+	})
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	ServiceSqlDB, err := DB.DB()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return ServiceDB, ServiceSqlDB
+}
+
 func CurrentDatabase() (dbname string) {
 	dbname = DB.Migrator().CurrentDatabase()
 	return

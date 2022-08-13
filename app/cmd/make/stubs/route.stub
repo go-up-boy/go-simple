@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	r := globals.R
+	r := globals.GlobalService.R
 	group := r.Group("/{{ControllerPath}}/{{PackageName}}")
 	{
 		var ctler = new({{PackageName}}.{{StructNamePlural}}Controller)

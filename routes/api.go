@@ -7,7 +7,7 @@ import (
 )
 
 func Initialize()  {
-	r := globals.R
+	r := globals.GlobalService.R
 	v1 := r.Group("/v1")
 	{
 		authGroup := v1.Group("/auth").Use(middlewares.LimitIP("2000-H"))

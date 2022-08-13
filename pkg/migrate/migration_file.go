@@ -2,6 +2,7 @@ package migrate
 
 import (
 	"database/sql"
+	"go-simple/types"
 	"gorm.io/gorm"
 	"path/filepath"
 	"strings"
@@ -11,6 +12,7 @@ type migrationFunc func(migrator gorm.Migrator, db *sql.DB)
 
 // MigrationFile 代表着单个迁移文件
 type MigrationFile struct {
+	DB 		 *types.ConnectionStruct
 	Up       migrationFunc
 	Down     migrationFunc
 	FileName string
@@ -18,8 +20,9 @@ type MigrationFile struct {
 
 var migrationFiles []MigrationFile
 
-func Add(name string, up migrationFunc, down migrationFunc) {
+func Add(DB *types.ConnectionStruct, name string, up migrationFunc, down migrationFunc) {
 	migrationFiles = append(migrationFiles, MigrationFile{
+		DB: DB,
 		Up: up,
 		Down: down,
 		FileName: name,

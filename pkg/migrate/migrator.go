@@ -69,7 +69,7 @@ func (migrator *Migrator) rollbackMigrations(migrations []Migration) bool {
 		console.Warning("rollback " + _migration.Migration)
 		mFile := getMigrationFile(_migration.Migration)
 		if mFile.Down != nil {
-			mFile.Down(database.DB.Migrator(), database.SqlDB)
+			mFile.Down(mFile.DB.DB.Migrator(), mFile.DB.SqlDB)
 		}
 		isRun = true
 		// Delete Migration Log
@@ -111,7 +111,7 @@ func (migrator *Migrator) getBatch() int {
 func (migrator *Migrator) runUpMigration(mFile MigrationFile, batch int) {
 	if mFile.Up != nil {
 		console.Warning("begin migrating " + mFile.FileName)
-		mFile.Up(database.DB.Migrator(), database.SqlDB)
+		mFile.Up(mFile.DB.DB.Migrator(), mFile.DB.SqlDB)
 		console.Success("migrated " + mFile.FileName)
 	}
 	err := migrator.DB.Create(&Migration{Migration: mFile.FileName, Batch: batch}).Error
@@ -132,12 +132,12 @@ func (migrator *Migrator) Refresh() {
 	migrator.Up()
 }
 
-func (migrator Migrator) Fresh() {
-	dbname := database.CurrentDatabase()
-	err := database.DeleteAllTables()
-	console.ExitIf(err)
-	console.Success("clearup database " + dbname)
-	migrator.createMigrationsTable()
-	console.Success("[migrations] table created.")
-	migrator.Up()
-}
+//func (migrator Migrator) Fresh() {
+//	dbname := database.CurrentDatabase()
+//	err := database.DeleteAllTables()
+//	console.ExitIf(err)
+//	console.Success("clearup database " + dbname)
+//	migrator.createMigrationsTable()
+//	console.Success("[migrations] table created.")
+//	migrator.Up()
+//}

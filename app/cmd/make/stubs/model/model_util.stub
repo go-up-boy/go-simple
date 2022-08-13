@@ -1,26 +1,22 @@
 package {{PackageName}}
 
-import (
-    "go-simple/pkg/database"
-)
-
 func Get(idstr string) ({{VariableName}} {{StructName}}) {
-    database.DB.Where("id", idstr).First(&{{VariableName}})
+    connection.DB.Where("id", idstr).First(&{{VariableName}})
     return
 }
 
 func GetBy(field, value string) ({{VariableName}} {{StructName}}) {
-    database.DB.Where("? = ?", field, value).First(&{{VariableName}})
+    connection.DB.Where("? = ?", field, value).First(&{{VariableName}})
     return
 }
 
 func All() ({{VariableNamePlural}} []{{StructName}}) {
-    database.DB.Find(&{{VariableNamePlural}})
+    connection.DB.Find(&{{VariableNamePlural}})
     return
 }
 
 func IsExist(field, value string) bool {
     var count int64
-    database.DB.Model({{StructName}}{}).Where(" = ?", field, value).Count(&count)
+    connection.DB.Model({{StructName}}{}).Where(" = ?", field, value).Count(&count)
     return count > 0
 }

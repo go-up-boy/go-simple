@@ -2,30 +2,38 @@
 package {{PackageName}}
 
 import (
-    "go-simple/app/models"
-    "go-simple/pkg/database"
-    "go-simple/pkg/logger"
+    "go-simple/globals"
+    "go-simple/types"
+    "time"
 )
 
+// database connection
+var connection *types.ConnectionStruct = &globals.GlobalService.Mysql
+
 type {{StructName}} struct {
-    models.BaseModel
+    ID uint64 `gorm:"column:id;primaryKey;autoIncrement;" json:"id,omitempty"`
 
     // Put fields in here
     FIXME()
 
-    models.CommonTimestampsField
+    CreatedAt time.Time `gorm:"column:created_at;index;" json:"created_at,omitempty"`
+    UpdatedAt time.Time `gorm:"column:updated_at;" json:"updated_at,omitempty"`
+}
+
+func New{{StructName}}Connection() *types.ConnectionStruct {
+    return connection
 }
 
 func ({{VariableName}} *{{StructName}}) Create() {
-    database.DB.Create(&{{VariableName}})
+    connection.DB.Create(&{{VariableName}})
 }
 
 func ({{VariableName}} *{{StructName}}) Save() (rowsAffected int64) {
-    result := database.DB.Save(&{{VariableName}})
+    result := connection.DB.Save(&{{VariableName}})
     return result.RowsAffected
 }
 
 func ({{VariableName}} *{{StructName}}) Delete() (rowsAffected int64) {
-    result := database.DB.Delete(&{{VariableName}})
+    result := connection.DB.Delete(&{{VariableName}})
     return result.RowsAffected
 }

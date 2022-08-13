@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	r := globals.R
+	r := globals.GlobalService.R
 	group := r.Group("/api/v1/user")
 	{
 		var ctler = new(user.UsersController)

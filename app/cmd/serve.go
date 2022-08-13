@@ -16,7 +16,7 @@ var Serve = &cobra.Command{
 }
 
 func runWeb(cmd *cobra.Command, args []string)  {
-	router := globals.R
+	router := globals.GlobalService.R
 	err := router.Run(":" + config.Get("app.port"))
 	if err != nil {
 		logger.ErrorString("CMD", "serve", err.Error())

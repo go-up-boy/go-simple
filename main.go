@@ -24,16 +24,12 @@ func main()  {
 		Short: "A simple forum project",
 		Long: `Default will run "serve" command, you can use "-h" flag to see all subcommands`,
 		PersistentPreRun: func(command *cobra.Command, args []string) {
-			// 配置初始化
 			config.InitConfig(cmd.Env)
-			// 初始化日志
 			bootstrap.SetupLogger()
-			// 初始化数据库连接
 			bootstrap.SetupDB()
-			// 初始化缓存
 			bootstrap.SetupRedis()
-			// 初始化路由
-			bootstrap.SetupRoute(globals.R)
+			globals.GlobalLazyInit()
+			bootstrap.SetupRoute(globals.GlobalService.R)
 		},
 	}
 	rootCmd.AddCommand(
